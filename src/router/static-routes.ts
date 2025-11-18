@@ -50,18 +50,4 @@ export default [
 
         ],
     },
-    // {
-    //     path: '/:pathMatch(.*)',
-    //     meta: {
-    //         title: '找不到页面',
-    //     },
-    //     component: () => import('@/pages/exception/error.vue'),
-    // },
-    {
-        path: '/test',
-        component: () => import('@/pages/common/test.vue'),
-        meta: {
-            title: 'test',
-        },
-    },
 ] as RouteRecordRaw[]
