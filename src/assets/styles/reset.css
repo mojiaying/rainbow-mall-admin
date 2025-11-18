@@ -1,0 +1,115 @@
+@import "./motion.css";
+html {
+  --text-color: rgba(0,0,0,.85);
+  --text-color-1: rgba(0,0,0,.45);
+  --text-color-2: rgba(0,0,0,.2);
+  --bg-color: #fff;
+  --hover-color:rgba(0,0,0,.025);
+  --bg-color-container: #f0f2f5;
+  --c-shadow: 2px 0 8px 0 rgba(29,35,41,.05);
+}
+
+html.dark{
+  --text-color: rgba(229, 224, 216, 0.85);
+  --text-color-1: rgba(229, 224, 216, 0.45);
+  --text-color-2: rgba(229, 224, 216, 0.45);
+  --bg-color: rgb(36, 37, 37);
+  --hover-color:rgb(42, 44, 55);
+  --bg-color-container: rgb(42, 44, 44);
+  --c-shadow: rgba(13, 13, 13, 0.65) 0 2px 8px 0;
+}
+
+body{
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  margin: 0 !important;
+}
+
+#app, body, html{
+  height: 100%;
+}
+
+#app{
+  overflow-x: hidden;
+}
+*, :after, :before{
+  box-sizing: border-box;
+}
+
+.line-hide {
+  white-space: nowrap;      /* 禁止换行 */
+  overflow: hidden;         /* 超出部分隐藏 */
+  text-overflow: ellipsis;  /* 超出部分显示省略号 */
+}
+.line-hide2{
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -o-text-overflow: ellipsis;
+      word-break: break-all;
+}
+.v-between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.gray{
+  color: #999;
+}
+.ant-table-cell {
+  text-align: center !important;
+}
+.a-left{
+  text-align: left;
+}
+.sm{
+  font-size: 12px;
+}
+ul.indent-reset {
+  padding-left: 0; /* 自定义缩进距离 */
+  list-style-position: inside; /* 标记在内容内部（可选） */
+  margin: 0;
+}
+.flex-center{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.my-grid{
+  display: grid;
+  grid-gap: 1px;
+  border-radius: 5px;
+  overflow: hidden;
+  &:nth-child(2n+1){
+    background-color: #F5F7FB;
+  }
+  .grid-th, .grid-td{
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grid-th{
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px 0;
+    background-color: rgb(228, 234, 254);
+  }
+}
+.left{
+  text-align: left;
+}
+.red{
+  color: red;
+}
+.w-e-full-screen-container {
+  z-index: 1000;
+}
