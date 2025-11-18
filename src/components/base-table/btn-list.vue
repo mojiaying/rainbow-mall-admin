@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import {useMenuAccess} from "@/composables/access.ts";
-
 let props = defineProps(['btns', 'row'])
-const { hasAccess } = useMenuAccess()
-const route = useRoute()
-const BtnCodes = route.meta?.btns || []
 let btnNums = 0
 props.btns.forEach((item: any) => {
   let show = typeof item?.show == "function"
       ? item.show(props?.row)
       : item.show ?? true
-  item.showBtn = show && hasAccess(item?.key, BtnCodes)
-  if(item.showBtn) btnNums++
+  if(show) btnNums++
 })
 let moreBtns = []
 let showTowBtns = props.btns

@@ -4,38 +4,39 @@ import {PageList} from "@/types/global";
 import Search from "@/components/search.vue";
 import {PlusOutlined} from "@ant-design/icons-vue";
 import {useMenuAccess} from "@/composables/access.ts";
-const { hasAccess } = useMenuAccess()
+// const { hasAccess } = useMenuAccess()
 const route = useRoute()
-const TabList = route.meta?.tabs || []
-const btnList = route.meta?.btns || []
+const router = useRouter()
+// const TabList = route.meta?.tabs || []
+// const btnList = route.meta?.btns || []
 const loading = ref(false)
 const tableSize = ref<string>('large')
 const searchRef = ref<InstanceType<typeof Search>>()
 let props = defineProps(['searchConf', 'columns', 'status', 'loading', 'statusList', 'hideAddBtn','exportFile','addBtnTxt', 'rowSelection', 'tableIndex'])
 const emit = defineEmits(["getList", 'openAdd', "statusChange"])
 const curStatus = ref<any>(props.status || '')
-function getStatusAccessList(){
-  let list = props.statusList
-  let firstAccessItem = undefined // 第一个有权限的tab
-  let statusHasAccess // 当前选中的tab是否有权限
-  for(let item in list){
-    let access = hasAccess(item, TabList)
-    // 1. 给每个tab添加权限属性
-    list[item].access = access
-    // 2. 查找第一个有权限的tab
-    if(!firstAccessItem && access) firstAccessItem = list[item]
-    // 3. 当前选中的tab是否有权限
-    if(curStatus.value == list[item].value && !access) {
-      console.log('当前选中的tab:', list[item], '没有权限')
-      statusHasAccess = false
-    }
-  }
-  // 4. 当前选中的tab没有权限，则切换到第一个有权限的tab
-  if(statusHasAccess == false) {
-    emit('statusChange', firstAccessItem?.value)
-  }
-}
-getStatusAccessList()
+// function getStatusAccessList(){
+//   let list = props.statusList
+//   let firstAccessItem = undefined // 第一个有权限的tab
+//   let statusHasAccess // 当前选中的tab是否有权限
+//   for(let item in list){
+//     let access = hasAccess(item, TabList)
+//     // 1. 给每个tab添加权限属性
+//     list[item].access = access
+//     // 2. 查找第一个有权限的tab
+//     if(!firstAccessItem && access) firstAccessItem = list[item]
+//     // 3. 当前选中的tab是否有权限
+//     if(curStatus.value == list[item].value && !access) {
+//       console.log('当前选中的tab:', list[item], '没有权限')
+//       statusHasAccess = false
+//     }
+//   }
+//   // 4. 当前选中的tab没有权限，则切换到第一个有权限的tab
+//   if(statusHasAccess == false) {
+//     emit('statusChange', firstAccessItem?.value)
+//   }
+// }
+// getStatusAccessList()
 
 const filterColumns = ref()
 const pagination = reactive<PaginationProps>({
@@ -108,7 +109,7 @@ function setSearchData(key:string){
 </script>
 
 <template>
-  <Access :access="route.path">
+<!--  <Access :access="route.path">-->
     <a-flex class="page">
   <Search v-if="searchConf" ref="searchRef" :exportFile="exportFile" :searchConf="searchConf" @onSearch="handleSearch" @initCurrent="initCurrent">
     <template #searchSlot="{item, formModal}">
@@ -122,7 +123,7 @@ function setSearchData(key:string){
   <a-card>
     <template #title>
       <a-radio-group v-if="statusList" v-model:value="curStatus" button-style="solid" @change="switchTab">
-        <a-radio-button v-for="(value, key) in statusList" :key="key" :disabled="!value?.access" :value="value.value">
+        <a-radio-button v-for="(value, key) in statusList" :key="key" :value="value.value">
           <a-space>{{value.label}}<a-badge :number-style='{color: "#000", background: "#ccc"}' :count="isNaN(value?.count) ? 0 : value?.count" :overflow-count="9999" /></a-space>
         </a-radio-button>
       </a-radio-group>
@@ -130,8 +131,8 @@ function setSearchData(key:string){
     <template #extra>
       <a-flex>
         <a-space size="middle">
-          <slot name="btns" :access="route.meta" :hasAccess="hasAccess"></slot>
-      <a-button v-if="!hideAddBtn && hasAccess('add', btnList)" type="primary" @click="handleOpen">
+          <slot name="btns"></slot>
+      <a-button v-if="!hideAddBtn" type="primary" @click="handleOpen">
         <template #icon>
           <PlusOutlined />
         </template>
@@ -150,7 +151,7 @@ function setSearchData(key:string){
   </a-card>
 </div>
     </a-flex>
-  </Access>
+<!--  </Access>-->
 </template>
 
 <style scoped lang="less">

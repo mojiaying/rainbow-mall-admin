@@ -142,32 +142,32 @@ export function generateTreeRoutes(menus: MenuData) {
 
 export async function generateRoutes() {
   // const { hasAccess } = useAccess()
-  const userStore = useUserStore()
-  let backEndMenu = userStore.backEndMenu
-  function filterRoutesByAccess(routes: RouteRecordRaw[]) {
-    return routes.filter((route) => {
-        // return !route.meta?.access || hasAccess(route.meta?.access)
-        let item = backEndMenu[route.path]
-        if (item) {
-          if(route.meta) {
-            route.meta.tabs = item.tabs
-            route.meta.btns = item.btns
-          }
-          return route
-        }
-      })
-      .map((route) => {
-        if (route.children?.length) {
-          route.children = filterRoutesByAccess(route.children)
-        }
-        return route
-      })
-  }
-  const accessRoutes = filterRoutesByAccess(dynamicRoutes)
-  const menuData = genRoutes(accessRoutes)
+  // const userStore = useUserStore()
+  // let backEndMenu = userStore.backEndMenu
+  // function filterRoutesByAccess(routes: RouteRecordRaw[]) {
+  //   return routes.filter((route) => {
+  //       // return !route.meta?.access || hasAccess(route.meta?.access)
+  //       let item = backEndMenu[route.path]
+  //       if (item) {
+  //         if(route.meta) {
+  //           route.meta.tabs = item.tabs
+  //           route.meta.btns = item.btns
+  //         }
+  //         return route
+  //       }
+  //     })
+  //     .map((route) => {
+  //       if (route.children?.length) {
+  //         route.children = filterRoutesByAccess(route.children)
+  //       }
+  //       return route
+  //     })
+  // }
+  // const accessRoutes = filterRoutesByAccess(dynamicRoutes)
+  const menuData = genRoutes(dynamicRoutes)
   return {
     menuData,
-    routeData: accessRoutes,
+    routeData: dynamicRoutes,
   }
 }
 

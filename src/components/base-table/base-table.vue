@@ -2,11 +2,6 @@
 
 <script setup lang="ts">
 import { flow, toNumber, round } from 'lodash';
-import {useMenuAccess} from "@/composables/access.ts";
-import {message} from "ant-design-vue";
-const { hasAccess } = useMenuAccess()
-const route = useRoute()
-const BtnCodes = route.meta?.btns || []
 const props = defineProps(['tableIndex', 'columns', 'dataSource', 'tableSize', 'pagination', 'loading', 'columnSlots', 'rowSelection']);
 const columnSlotsObj = computed(() => props.columnSlots ? props.columnSlots : [])
 function  getColumnsStyle(item:any) {
@@ -42,19 +37,6 @@ const btnShow = computed(
 function  getBtnStyle(item:any) {
   return typeof item?.item?.style === 'function' ? item?.item?.style(item) : item?.item?.style
 }
-function handleAccess (row:any, item:any) {
-  if(item?.key) {
-    if(hasAccess(item?.key, BtnCodes)) {
-      item.onclick(row)
-    } else {
-      // item.onclick(row)
-      message.error('暂无权限，请在权限维护中给角色添加权限')
-    }
-  } else {
-    // item.onclick(row)
-    message.error('前端代码没配权限')
-  }
-}
 </script>
 
 <template>
@@ -77,10 +59,9 @@ function handleAccess (row:any, item:any) {
           <template #default="{item}">
             <div class="btn" v-if="item?.mapName ? item?.mapName({ text, record, index, column }) : true"
                  :key="index"
-                 @click="handleAccess({ text, record, index, column }, item)"
-                 :class="hasAccess(item.key, BtnCodes) ? '': 'disabled'"
+                 @click="item.onclick({ text, record, index, column }, item)"
                  :style="{
-                          display: btnShow({ item,  text, record, index, column }) && hasAccess(item.key, BtnCodes) ? 'inline-block' : 'none',
+                          display: btnShow({ item,  text, record, index, column }) ? 'inline-block' : 'none',
                           ...(getBtnStyle({ item,  text, record, index, column}) || {}),
                         }" >{{item?.mapName ? item?.mapName({ text, record, index, column }) : item?.label }}</div>
           </template>
